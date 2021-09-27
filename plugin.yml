@@ -1,0 +1,6 @@
+---
+name: AetheriumCore
+version: 0.0.1
+main: royal\AetheriumCore\Main
+api: 4.0.0-BETA2
+...
