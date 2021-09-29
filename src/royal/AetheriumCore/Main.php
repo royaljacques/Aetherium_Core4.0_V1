@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace royal\AetheriumCore;
 
+use pocketmine\block\Beetroot;
+use pocketmine\block\BlockIdentifier;
 use pocketmine\block\tile\EnderChest;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\PlayerEnderInventory;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
@@ -24,8 +27,8 @@ use royal\AetheriumCore\utils\{
 };
 
 class Main extends PluginBase{
-	private static $instance;
-	private static $RankAPI;
+	private static self $instance;
+	private static RankAPI $RankAPI;
 	/**
 	 * @var Config
 	 */
@@ -69,10 +72,6 @@ class Main extends PluginBase{
 							(new ItemFactory)->register($class, true);
 							$this->getLogger()->info("§5adresse de l'item: ".$name);
 							break;
-						case "Block":
-							(new BlockFactory)->register($class, true);
-							$this->getLogger()->info("§badresse du block: ".$name);
-							break;
 						case "Command":
 							$this->getServer()->getCommandMap()->register($this->getName(), $class);
 							$this->getLogger()->info("§1adresse de la commande: ".$name);
@@ -81,7 +80,6 @@ class Main extends PluginBase{
 							$this->getServer()->getPluginManager()->registerEvents($class, $this);
 							$this->getLogger()->info("§3adresse de l'event: ".$name);
 							break;
-
 						case"Task":
 							$this->getScheduler()->scheduleRepeatingTask($class, $class->getEverySecond() * 20);
 							$this->getLogger()->info("§6adresse de la task: ".$name);

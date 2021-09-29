@@ -3,6 +3,7 @@ namespace royal\AetheriumCore\api\jobs;
 
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\player\Player;
+use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use royal\AetheriumCore\api\JobAPI;
 use royal\AetheriumCore\Main;
@@ -13,6 +14,11 @@ trait Farmer{
 	{
 		$this->plugin = $plugin;
 	}
+
+    public function getConfig(Player $player): Config
+    {
+        return new Config(Main::getInstance()->getDataFolder()."job/"."players/".$player->getName().".yml", Config::YAML);
+    }
 	private function openFarmerForm(Player $player){
 		$form = new SimpleForm(function (Player $player, $data = null){
 			if ($data === null){
@@ -42,7 +48,6 @@ trait Farmer{
 			}
 			return true;
 		});
-		TextFormat::DARK_PURPLE;
 		$form->setTitle("Aetherium-Jobs");
 		$form->addButton("Fermer");
 
