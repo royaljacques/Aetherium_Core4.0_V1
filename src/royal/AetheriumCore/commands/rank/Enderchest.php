@@ -25,13 +25,16 @@ class Enderchest extends Command{
 		$this->setPermission(Permissions::ENDERCHEST);
 	}
 	public function execute(CommandSender $sender, string $commandLabel, array $args)
-	{
-		if (!$sender->hasPermission(Permissions::ENDERCHEST))$sender->sendMessage("Tu n'as pas les permissions");
-		if ($sender instanceof Player){
-			if ($sender->hasPermission(Permissions::ENDERCHEST)){
-				$this->openEnderInventory($sender);
-			}
-		}
+    {
+        if ($sender->hasPermission(Permissions::ENDERCHEST)){
+            if ($sender instanceof Player) {
+                if ($sender->hasPermission(Permissions::ENDERCHEST)) {
+                    $this->openEnderInventory($sender);
+                }
+            }
+        }else{
+            $sender->sendMessage("tu n'as pas les permissions");
+        }
 	}
 	public function openEnderInventory(Player $player){
 		$menu = InvMenu::create(InvMenu::TYPE_CHEST);

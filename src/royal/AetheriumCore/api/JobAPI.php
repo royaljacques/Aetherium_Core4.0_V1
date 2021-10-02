@@ -18,7 +18,8 @@ trait JobAPI{
 		return new Config(Main::getInstance()->getDataFolder()."job/"."players/".$player->getName().".yml", Config::YAML);
 	}
 	public function addXpMiner(Player $player, int $xp){
-
+        $config = $this->getConfig($player);
+        $config->setNested("miner.xp", $xp);
 	}
 	public function addXpFarmer(Player $player, int $xp){
 
@@ -27,7 +28,7 @@ trait JobAPI{
 
 	}
 	public function setupPlayer(Player $player){
-		copy(dirname(__FILE__)."\jobs\JobTemplate.yml", $this->plugin->getDataFolder()."job/"."players/".$player->getName().".yml");
+		copy(dirname(__FILE__)."/jobs/JobTemplate.yml", $this->plugin->getDataFolder()."job/"."players/".$player->getName().".yml");
 	}
 	public function joinServer(Player $player){
 		$config = $this->getConfig($player);

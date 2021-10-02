@@ -25,6 +25,7 @@ use royal\AetheriumCore\utils\{
 	Permissions,
 	Variables
 };
+use royal\AetheriumCore\blocks\MinerBlock;
 
 class Main extends PluginBase{
 	private static self $instance;
