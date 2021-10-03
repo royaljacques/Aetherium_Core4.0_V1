@@ -16,6 +16,9 @@ class AddRank extends Command{
 	}
 	public function execute(CommandSender $sender, string $commandLabel, array $args): bool
 	{
+        if(!$this->testPermission($sender)){
+            return true;
+        }
 		if (empty($args[0])){
 			$sender->sendMessage("/addrank <nom du grade>");
 		}else{

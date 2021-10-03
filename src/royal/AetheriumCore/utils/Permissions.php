@@ -4,16 +4,19 @@ namespace royal\AetheriumCore\utils;
 
 final class Permissions{
 
-	public static array $permissionsall = [
+
+    public static array $permissionsall = [
 		self::vanish,
 		self::PERMISSIONS,
 		self::CRAFT,
 		self::ENDERCHEST,
+        self::MONNAIE,
 	];
 
 	///staff\\\
 	public const vanish = "vanish.use";
 	public const PERMISSIONS = "permissions.use";
+    public const MONNAIE = "monnaie.use";
 	///rank\\\
 	public const CRAFT = "craft.use";
 	public const ENDERCHEST = "endechest.use";
