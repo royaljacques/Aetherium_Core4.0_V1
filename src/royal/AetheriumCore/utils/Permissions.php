@@ -11,10 +11,12 @@ final class Permissions{
 		self::CRAFT,
 		self::ENDERCHEST,
         self::MONNAIE,
+        self::ADMIN,
 	];
 
 	///staff\\\
 	public const vanish = "vanish.use";
+    public const ADMIN = "admin.use";
 	public const PERMISSIONS = "permissions.use";
     public const MONNAIE = "monnaie.use";
 	///rank\\\
