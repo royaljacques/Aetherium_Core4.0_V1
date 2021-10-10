@@ -41,13 +41,10 @@ class Enderchest extends Command{
 		$menu->setName("Ender Chest de ". $player->getName() );
 		$enderinv = $player->getEnderInventory()->getContents();
 		$player->getEnderInventory()->clearAll();
-		foreach ($enderinv as $item){
-			$menu->getInventory()->addItem($item);
-		}
+        $menu->getInventory()->setContents($enderinv);
+
 		$menu->setInventoryCloseListener(function(Player $player, Inventory $inventory) : void{
-			foreach ($inventory->getContents() as $item){
-				$player->getEnderInventory()->addItem($item);
-			}
+            $player->getEnderInventory()->setContents($inventory->getContents() );
 		});
 		$menu->send($player);
 	}

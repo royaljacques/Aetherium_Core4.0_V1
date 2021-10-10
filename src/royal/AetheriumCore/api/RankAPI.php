@@ -54,6 +54,16 @@ class RankAPI {
 			$player->setBasePermission($perm, true);
 		}
 	}
+    public function onChatAPI(Player $player, string $message)
+    {
+        $rank = new Config($this->plugin->getDataFolder()."ranks/"."players/"."players.yml");
+        $rankConfig = new Config($this->plugin->getDataFolder()."ranks/"."ranks.yml");
+        $faction = "faction";
+        var_dump($rank->get($player->getName()));
+        $rankName =$rankConfig->getNested($rank->get($player->getName()).".chat");
+        $ranklol = str_replace( ["{rank}", "{faction}", "{player}"],[$rank->get($player->getName()), $faction, $player->getName()],$rankName. $message);
+        return $modif = $ranklol;
+    }
 
 
 }

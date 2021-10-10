@@ -9,6 +9,7 @@ use pocketmine\block\BlockIdentifier;
 use pocketmine\block\tile\EnderChest;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\PlayerEnderInventory;
+use royal\AetheriumCore\api\JobAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockFactory;
@@ -42,6 +43,7 @@ class Main extends PluginBase{
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
 		}
+        $this->getServer()->getNetwork()->setName("§k§dAetherium");
 		InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
 		foreach (Permissions::$permissionsall as $perms){
 			PermissionManager::getInstance()->addPermission(new Permission($perms));
@@ -60,6 +62,7 @@ class Main extends PluginBase{
 	public static function getRankAPI(): RankAPI{
 		return self::$RankAPI;
 	}
+
 	private function register(string $dir, string $type)
 	{
 		foreach (scandir($dir) as $file) {

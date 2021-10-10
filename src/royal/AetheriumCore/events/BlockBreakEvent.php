@@ -2,10 +2,13 @@
 namespace royal\AetheriumCore\events;
 
 use pocketmine\block\Block;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\event\Listener;
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\protocol\types\command\CommandOutputMessage;
 use royal\AetheriumCore\api\JobAPI;
 use royal\AetheriumCore\Main;
 use pocketmine\event\block\BlockBreakEvent as BBE;
@@ -21,25 +24,24 @@ class BlockBreakEvent implements Listener{
 		$block = $event->getBlock();
 		$player = $event->getPlayer();
         $this->addBlock($block);
-
 		switch ($block->getId()){
-			case VanillaBlocks::DIAMOND_ORE():
+			case BlockLegacyIds::DIAMOND_ORE:
 				$this->addXpMiner($player, 10);
 				break;
-			case VanillaBlocks::GOLD_ORE():
+			case BlockLegacyIds::GOLD_ORE:
 				$this->addXpMiner($player, 5);
 				break;
-			case VanillaBlocks::IRON_ORE():
+			case BlockLegacyIds::IRON_ORE:
 				$this->addXpMiner($player, 3);
 				break;
-			case VanillaBlocks::REDSTONE_ORE():
-			case VanillaBlocks::COAL_ORE():
+			case BlockLegacyIds::REDSTONE_ORE:
+			case BlockLegacyIds::COAL_ORE:
 				$this->addXpMiner($player, 1);
 				break;
-			case VanillaBlocks::LAPIS_LAZULI_ORE():
+			case BlockLegacyIds::LAPIS_ORE:
 				$this->addXpMiner($player,2);
 				break;
-            case VanillaBlocks::BEETROOTS():
+            case BlockLegacyIds::BEETROOT_BLOCK:
                 if ($block->getMeta() === 7){
                     $random = mt_rand(1, 1000);
                     if ($random <= 50){
@@ -66,14 +68,17 @@ class BlockBreakEvent implements Listener{
 
                     $block = $blocks->getPosition()->getWorld()->getBlockAt($x,$y,$z);
 
-                    if ($block->getId() == VanillaBlocks::OBSIDIAN() or $block->getId() == VanillaBlocks::BEDROCK()) {
+                    if ($block->getId() == BlockLegacyIds::OBSIDIAN or $block->getId() == BlockLegacyIds::BEDROCK) {
                         return;
                     } else {
 
                         $block->getPosition()->getWorld()->setBlock(new Vector3($x, $y, $z), VanillaBlocks::AIR());
 
                         $item = $this->onTransform($block);
-                        $block->getPosition()->getWorld()->dropItem(new Vector3($x, $y, $z), $item);
+                        if ($block instanceof Block) {
+                            if ($item instanceof Item)
+                            $block->getPosition()->getWorld()->dropItem(new Vector3($x, $y, $z), $item);
+                        }
 
                     }
                 }
@@ -83,11 +88,11 @@ class BlockBreakEvent implements Listener{
     private function onTransform(Block $block)
     {
         return match ($block->getId()) {
-            VanillaBlocks::DIAMOND_ORE() => VanillaItems::DIAMOND(),
-            VanillaBlocks::GOLD_ORE() => VanillaItems::GOLD_INGOT(),
-            VanillaBlocks::REDSTONE_ORE() => VanillaItems::REDSTONE_DUST(),
-            VanillaBlocks::LAPIS_LAZULI_ORE() => VanillaItems::LAPIS_LAZULI(),
-            VanillaBlocks::EMERALD_ORE() => VanillaItems::EMERALD(),
+            VanillaBlocks::DIAMOND_ORE() => BlockLegacyIds::DIAMOND_ORE,
+            VanillaBlocks::GOLD_ORE() => BlockLegacyIds::GOLD_ORE,
+            VanillaBlocks::REDSTONE_ORE() => BlockLegacyIds::REDSTONE_ORE,
+            VanillaBlocks::LAPIS_LAZULI_ORE() => BlockLegacyIds::LAPIS_ORE,
+            VanillaBlocks::EMERALD_ORE() => BlockLegacyIds::EMERALD_ORE,
             default => $block->getId(),
         };
     }

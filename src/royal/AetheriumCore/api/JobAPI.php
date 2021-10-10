@@ -13,6 +13,13 @@ trait JobAPI{
 	use Miner;
 	private Main $plugin;
 
+    public static function ConnectDb(): \mysqli
+    {
+        return new \mysqli("127.0.0.1", "root", "");
+    }
+    public static function Init(){
+        $db = self::ConnectDb();
+    }
 	public function getConfig(Player $player): Config
 	{
 		return new Config(Main::getInstance()->getDataFolder()."job/"."players/".$player->getName().".yml", Config::YAML);
