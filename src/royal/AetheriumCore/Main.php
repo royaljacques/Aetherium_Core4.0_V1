@@ -3,13 +3,6 @@
 declare(strict_types=1);
 
 namespace royal\AetheriumCore;
-
-use pocketmine\block\Beetroot;
-use pocketmine\block\BlockIdentifier;
-use pocketmine\block\tile\EnderChest;
-use pocketmine\block\VanillaBlocks;
-use pocketmine\inventory\PlayerEnderInventory;
-use royal\AetheriumCore\api\JobAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockFactory;
@@ -26,7 +19,7 @@ use royal\AetheriumCore\utils\{
 	Permissions,
 	Variables
 };
-use royal\AetheriumCore\blocks\MinerBlock;
+use royal\AetheriumCore\items\ItemsInit;
 
 class Main extends PluginBase{
 	private static self $instance;
@@ -93,4 +86,10 @@ class Main extends PluginBase{
 			}
 		}
 	}
+
+
+    protected function onLoad(): void
+    {
+        ItemsInit::Init();
+    }
 }
