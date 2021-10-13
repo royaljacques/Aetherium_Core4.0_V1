@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 namespace royal\AetheriumCore;
+use royal\AetheriumCore\api\ItemAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
-use pocketmine\block\BlockFactory;
 use pocketmine\crafting\CraftingGrid;
 use pocketmine\item\ItemFactory;
 use pocketmine\permission\{
@@ -32,11 +32,12 @@ class Main extends PluginBase{
 	protected function onEnable(): void
 	{
 		self::$instance = $this;
+        ItemAPI::Init();
 		self::$RankAPI = new RankAPI($this);
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
 		}
-        $this->getServer()->getNetwork()->setName("§k§dAetherium");
+        $this->getServer()->getNetwork()->setName("§dAetherium ");
 		InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
 		foreach (Permissions::$permissionsall as $perms){
 			PermissionManager::getInstance()->addPermission(new Permission($perms));
@@ -46,6 +47,7 @@ class Main extends PluginBase{
 		$this->register(dirname(__FILE__) . "/events", "Event");
 		@mkdir($this->getDataFolder()."ranks/");
 		@mkdir($this->getDataFolder()."job/");
+		@mkdir($this->getDataFolder()."home/");
 		@mkdir($this->getDataFolder()."job/"."players");
 		@mkdir($this->getDataFolder()."ranks/"."players/");
 	}
@@ -56,6 +58,9 @@ class Main extends PluginBase{
 		return self::$RankAPI;
 	}
 
+    public function removeTask(int $id) {
+        $this->removeTask($id);
+    }
 	private function register(string $dir, string $type)
 	{
 		foreach (scandir($dir) as $file) {

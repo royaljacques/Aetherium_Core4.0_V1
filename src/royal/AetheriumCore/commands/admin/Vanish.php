@@ -18,7 +18,6 @@ class Vanish extends VanillaCommand {
 		"/vanish");
 		$this->setPermission(Permissions::vanish);
 	}
-
 	public function execute(CommandSender $sender, string $commandLabel, array $args)
 	{
 		if(!$sender->hasPermission($sender)){
