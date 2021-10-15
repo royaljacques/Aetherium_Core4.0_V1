@@ -7,11 +7,9 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
-use royal\AetheriumCore\api\HomeSystemAPI;
 use royal\AetheriumCore\Main;
 
 class SetHome extends Command{
-    use HomeSystemAPI;
     public Main $plugin;
     public function __construct(Main $plugin)
     {
