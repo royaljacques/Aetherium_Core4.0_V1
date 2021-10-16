@@ -61,7 +61,8 @@ class RankAPI {
         $faction = "faction";
         var_dump($rank->get($player->getName()));
         $rankName =$rankConfig->getNested($rank->get($player->getName()).".chat");
-        $ranklol = str_replace( ["{rank}", "{faction}", "{player}"],[$rank->get($player->getName()), $faction, $player->getName()],$rankName. $message);
+        $prestige = 1;
+        $ranklol = str_replace( ["{rank}", "{faction}", "{prestige}","{player}"],[$rank->get($player->getName()), $faction,$prestige, $player->getName()],$rankName. $message);
         return $modif = $ranklol;
     }
 

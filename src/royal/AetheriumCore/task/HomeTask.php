@@ -77,7 +77,6 @@ class HomeTask extends Task {
             $player->getNetworkSession()->sendDataPacket($son);
             unset(Variables::$Teleportation[$player->getName()]);
             $player->sendPopup("§d- §bVous avez été téléporté au home §b{$this->nom} §d-");
-
             $home = new Config($this->core->getDataFolder() . "Homes/" . strtolower($player->getName()) . ".json", Config::JSON);
             $pos = $home->get($this->nom);
             $pos = explode(":", $pos);

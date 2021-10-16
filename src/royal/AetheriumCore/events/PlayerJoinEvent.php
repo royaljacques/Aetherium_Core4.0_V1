@@ -21,10 +21,8 @@ use JobAPI;
 			Main::getRankAPI()->firstJoin($player);
 			$this->setupPlayer($player);
 		}
-		$this->joinServer($player);
+		//$this->joinServer($player);
 		Main::getRankAPI()->playerJoinServer($player);
-
-        $player = $event->getPlayer();
         $player->getNetworkSession()->syncGameMode($player->getGamemode());
         $player->getNetworkSession()->sendDataPacket(ItemAPI::$packet);
 	}

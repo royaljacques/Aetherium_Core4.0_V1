@@ -18,7 +18,7 @@ class MysqlTask extends AsyncTask{
     }
     public function onRun(): void
     {
-        
+
     }
 
     /**
@@ -26,8 +26,10 @@ class MysqlTask extends AsyncTask{
      */
     public function onCompletion(): void
     {
+        var_dump($this->database);
         switch ($this->database) {
-            case "discord_job":
+            case "Aetherium_Job":
+                var_dump($this->text);
                 $db = new \MySQLi("127.0.0.1", "root", "", "Aetherium_Job");
                 break;
             case "discord_api":
@@ -39,5 +41,6 @@ class MysqlTask extends AsyncTask{
         }
         $db->query($this->text);
         if ($db->error) throw new \Exception($db->error);
+        $db->close();
     }
 }
