@@ -35,9 +35,11 @@ trait JobAPI{
 
 	}
 	public function setupPlayer(Player $player){
+
 		copy(dirname(__FILE__)."/jobs/JobTemplate.yml", $this->plugin->getDataFolder()."job/"."players/".$player->getName().".yml");
 	}
 	public function joinServer(Player $player){
+
 		$config = $this->getConfig($player);
 		Variables::$minerJob[$player->getName()] = array_merge(["xp" => $config->getNested("miner.xp")], ["level" => $config->getNested("miner.level")]);
 	}

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace royal\AetheriumCore;
 use royal\AetheriumCore\api\ItemAPI;
+use royal\AetheriumCore\api\JobAPI;
+use royal\AetheriumCore\api\MysqlAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\crafting\CraftingGrid;
@@ -33,6 +35,7 @@ class Main extends PluginBase{
 	{
 		self::$instance = $this;
         ItemAPI::Init();
+        MysqlAPI::Init();
 		self::$RankAPI = new RankAPI($this);
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
