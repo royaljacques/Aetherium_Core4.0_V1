@@ -4,7 +4,6 @@ namespace royal\AetheriumCore\utils;
 
 final class Permissions{
 
-
     public static array $permissionsall = [
 		self::vanish,
 		self::PERMISSIONS,
@@ -12,11 +11,11 @@ final class Permissions{
 		self::ENDERCHEST,
         self::MONNAIE,
         self::ADMIN,
-        self::HOME_LEGENDE,
+        self::HOME_MAITRE,
         self::HOME_ELITE,
-        self::HOME_VIP,
-        self::HOME_ULTRA,
-        self::HOME_VIPP,
+        self::HOME_ELITE,
+        self::HOME_VETERANT,
+        self::HOME_PRO,
 	];
 
 	///staff\\\
@@ -25,16 +24,15 @@ final class Permissions{
 	public const PERMISSIONS = "permissions.use";
     public const MONNAIE = "monnaie.use";
     public const ADMIN_HOME = "home.use";
+    public const LOGS_BLOCK = "log.use";
 	///rank\\\
 	public const CRAFT = "craft.use";
 	public const ENDERCHEST = "endechest.use";
 
-
-    public const HOME_VIP = "home.vip";
-    public const HOME_VIPP = "home.vip+";
-    public const HOME_ULTRA = "home.ultra";
+    public const HOME_PRO = "home.pro+";
+    public const HOME_VETERANT = "home.veterant";
     public const HOME_ELITE = "home.elite";
-    public const HOME_LEGENDE = "home.legende";
+    public const HOME_MAITRE = "home.maitre";
 
 
 	public static array $permissionsRank = [

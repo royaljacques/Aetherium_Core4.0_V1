@@ -1,5 +1,5 @@
 <?php
-namespace royal\AetheriumCore\commands\admin\economie;
+namespace royal\AetheriumCore\commands\player;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;

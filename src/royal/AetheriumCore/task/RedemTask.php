@@ -14,6 +14,10 @@ class RedemTask extends Task
         self::$time = $time;
         self::$type = $type;
     }
+
+    public function getTaskLoader(){
+        return null;
+    }
     public function onRun(): void
     {
 

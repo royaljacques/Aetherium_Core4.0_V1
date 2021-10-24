@@ -1,8 +1,6 @@
 miner:
-  xp: 0
-  level: 0
   reward:
-    1: 0
+    1: 2
     2: 0
     3: 0
     4: 0

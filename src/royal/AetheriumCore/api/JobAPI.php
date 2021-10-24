@@ -4,14 +4,11 @@ namespace royal\AetheriumCore\api;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
-use royal\AetheriumCore\api\jobs\Farmer;
-use royal\AetheriumCore\api\jobs\Miner;
 use royal\AetheriumCore\Main;
 use royal\AetheriumCore\task\MysqlTask;
 use royal\AetheriumCore\utils\Variables;
 
 trait JobAPI{
-	use Miner;
 	private Main $plugin;
 
     public static function ConnectDb(): \mysqli
@@ -36,7 +33,7 @@ trait JobAPI{
         $xph = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Farmer WHERE pseudo=" . $name , "Aetherium_Jobs"));
         Variables::$MinerJob[$player->getName()] = array_merge(["xp" => $xp], ["niveau" => $niveau]);
         Variables::$FarmerJob[$player->getName()] = array_merge(["xp" => $xpf], ["niveau" => $niveauf]);
-        Variables::$HunterJob[$player->getName()] = array_merge(["xp" => $xp], ["niveau" => $niveau]);
+        Variables::$HunterJob[$player->getName()] = array_merge(["xp" => $xph], ["niveau" => $niveauh]);
     }
     public function quitServer(Player $player){
         $xp = Variables::$MinerJob[$player->getName()]["xp"];
@@ -87,7 +84,7 @@ trait JobAPI{
 			}
 			switch ($data){
 				case 0:
-					$this->openMinerForm($player);
+
 			}
 			return true;
 		});
@@ -95,6 +92,26 @@ trait JobAPI{
 		$player->sendForm($form);
 	}
 
+    public function MinerIndex()
+    {
+        $form = new SimpleForm(function (Player $player, $data = null) {
+            if ($data === null) {
+                return true;
+            }
+            switch ($data) {
+
+                case 0:
+
+            }
+
+            return true;
+        });
+        $form->addButton("Comment xp");
+        $form->addButton("Niveau: \n" . Variables::$MinerJob["niveau"] . "/15");
+        $form->addButton("xp: \n" . Variables::$MinerJob["xp"] . "/15");
+        $form->addButton("récompense");
+        $form->addButton("quitter");
+    }
 	protected function Template(){
 		$form = new SimpleForm(function (Player $player, $data = null){
 			if ($data === null){
@@ -107,5 +124,9 @@ trait JobAPI{
 			}
 			return true;
 		});
+
 	}
+    public function getLevelUI(int $id){
+
+    }
 }

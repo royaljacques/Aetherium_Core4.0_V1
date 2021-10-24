@@ -1,6 +1,7 @@
 ---
-name: AetheriumCore
+name: OctaniaFaction
 version: 0.0.1
+load: STARTUP
 main: royal\AetheriumCore\Main
-api: 4.0.0-BETA2
+api: 4.0.0
 ...

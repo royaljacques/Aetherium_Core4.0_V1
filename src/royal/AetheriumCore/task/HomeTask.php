@@ -27,6 +27,10 @@ class HomeTask extends Task {
         $this->Pz = $z;
         $this->nom = $nom;
     }
+    public function getTaskLoader(){
+        return null;
+    }
+
     public function onRun(): void
     {
         $player = $this->player;

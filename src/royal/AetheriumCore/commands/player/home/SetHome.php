@@ -1,13 +1,12 @@
 <?php
 namespace royal\AetheriumCore\commands\player\home;
 
-
-use Nitro\Utils\Permissions;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
 use royal\AetheriumCore\Main;
+use royal\AetheriumCore\utils\Permissions;
 
 class SetHome extends Command{
     public Main $plugin;
@@ -27,27 +26,25 @@ class SetHome extends Command{
                         $allHomes = $home->getAll(true);
                         $homes = implode(", ", $allHomes);
                         $count = count($allHomes);
-                        if ($sender->hasPermission(Permissions::HOME_LEGENDE)) {
-                            $hcount = 30;
-                        } else if ($sender->hasPermission(Permissions::HOME_ELITE)) {
+                        if ($sender->hasPermission(Permissions::HOME_MAITRE)) {
                             $hcount = 25;
-                        } else if ($sender->hasPermission(Permissions::HOME_ULTRA)) {
+                        } else if ($sender->hasPermission(Permissions::HOME_ELITE)) {
                             $hcount = 20;
-                        } else if ($sender->hasPermission(Permissions::HOME_VIPP)) {
-                            $hcount = 16;
-                        } else if ($sender->hasPermission(Permissions::HOME_VIP)) {
-                            $hcount = 12;
-                        } else {
+                        } else if ($sender->hasPermission(Permissions::HOME_VETERANT)) {
+                            $hcount = 15;
+                        } else if ($sender->hasPermission(Permissions::HOME_PRO)) {
+                            $hcount = 10;
+                        }else {
                             $hcount = 8;
                         }
                         if($home->exists($args[0])){
-                            $sender->sendMessage("§1[§dAetherium§1] §bCe home existe déjà, veuillez le supprimer pour le replacer.");
+                            $sender->sendMessage("§1[§bJoueurs§1] §bCe home existe déjà, veuillez le supprimer pour le replacer.");
                         }
                         if($count >= $hcount){
-                            $sender->sendMessage("§1[§dAetherium§1] §bVous n'avez plus de place disponible pour poser plus de homes (tu ne peux placer seulement  : {$hcount} homes §b) !");
+                            $sender->sendMessage("§1[§bJoueurs§1] §bVous n'avez plus de place disponible pour poser plus de homes (tu ne peux placer seulement  : {$hcount} homes §b) !");
                         }
                         if(strlen($args[0]) > 10){
-                            $sender->sendMessage("§1[§dAetherium§1] §bVous ne pouvez utiliser que 10 caractères maximum !");
+                            $sender->sendMessage("§1[§bJoueurs§1] §bVous ne pouvez utiliser que 10 caractères maximum !");
                         }
                         $player = $sender;
                         $x = round($player->getPosition()->getX(), 0);
@@ -56,19 +53,19 @@ class SetHome extends Command{
                         $world = $player->getWorld()->getFolderName();
                         $home->set($args[0], "{$x}:{$y}:{$z}:{$world}");
                         $home->save();
-                        $sender->sendMessage("§1[§dAetherium§1] §aVotre home a été défini avec succès !");
+                        $sender->sendMessage("§1[§bJoueurs§1] §aVotre home a été défini avec succès !");
                     } else {
-                        $sender->sendMessage("§1[§dAetherium§1] §bVous ne pouvez pas poser de homes ici !");
+                        $sender->sendMessage("§1[§bJoueurs§1] §bVous ne pouvez pas poser de homes ici !");
                     }
                 } else {
-                    $sender->sendMessage("§1[§dAetherium§1] §cLe nom de votre home est invalide, veuillez utiliser seulement des lettres et des numéros.");
+                    $sender->sendMessage("§1[§bJoueurs§1] §cLe nom de votre home est invalide, veuillez utiliser seulement des lettres et des numéros.");
                 }
 
             } else {
-                $sender->sendMessage("§1[§dAetherium§1] §bVous devez faire §9/sethome (nom du home) §bpour définir un nouveau home !");
+                $sender->sendMessage("§1[§bJoueurs§1] §bVous devez faire §9/sethome (nom du home) §bpour définir un nouveau home !");
             }
         } else {
-            $sender->sendMessage("§1[§dAetherium§1] §cVous ne pouvez pas utiliser cette commande depuis la console.");
+            $sender->sendMessage("§1[§bJoueurs§1] §cVous ne pouvez pas utiliser cette commande depuis la console.");
         }
         return true;
     }

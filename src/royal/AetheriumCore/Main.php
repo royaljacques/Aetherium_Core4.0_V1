@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace royal\AetheriumCore;
+use royal\AetheriumCore\api\EnchantAPI;
 use royal\AetheriumCore\api\ItemAPI;
-use royal\AetheriumCore\api\JobAPI;
+use royal\AetheriumCore\api\LogAPI;
 use royal\AetheriumCore\api\MysqlAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
@@ -22,47 +23,74 @@ use royal\AetheriumCore\utils\{
 	Variables
 };
 use royal\AetheriumCore\items\ItemsInit;
+use royal\AetheriumCore\Other\CustomEnchantments;
+use royal\AetheriumCore\task\LogTask;
 
 class Main extends PluginBase{
 	private static self $instance;
 	private static RankAPI $RankAPI;
+	private static LogAPI $logAPI;
+	private static EnchantAPI $enchantAPI;
 	/**
 	 * @var Config
 	 */
 	private Config $rank;
 
+
+
+    protected function onLoad(): void
+    {
+
+        @mkdir($this->getDataFolder()."ranks/");
+        @mkdir($this->getDataFolder()."job/");
+        @mkdir($this->getDataFolder()."home/");
+        @mkdir($this->getDataFolder()."job/"."players");
+        @mkdir($this->getDataFolder()."ranks/"."players/");
+
+        ItemsInit::Init();
+        CustomEnchantments::setup();
+        ItemAPI::Init();
+        foreach (Permissions::$permissionsall as $perms){
+            PermissionManager::getInstance()->addPermission(new Permission($perms));
+            $this->getLogger()->info("§2 La permission: ".$perms." a bien été load");
+        }
+    }
 	protected function onEnable(): void
 	{
+
 		self::$instance = $this;
-        ItemAPI::Init();
+        self::$RankAPI = new RankAPI($this);
+        self::$logAPI = new LogAPI();
+        self::$enchantAPI = new EnchantAPI($this);
+
         MysqlAPI::Init();
-		self::$RankAPI = new RankAPI($this);
+
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
 		}
-        $this->getServer()->getNetwork()->setName("§dAetherium ");
-		InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
-		foreach (Permissions::$permissionsall as $perms){
-			PermissionManager::getInstance()->addPermission(new Permission($perms));
-			$this->getLogger()->info("§2 La permission: ".$perms." a bien été load");
-		}
+
 		$this->register(dirname(__FILE__) . "/commands", "Command");
 		$this->register(dirname(__FILE__) . "/events", "Event");
-		@mkdir($this->getDataFolder()."ranks/");
-		@mkdir($this->getDataFolder()."job/");
-		@mkdir($this->getDataFolder()."home/");
-		@mkdir($this->getDataFolder()."job/"."players");
-		@mkdir($this->getDataFolder()."ranks/"."players/");
-	}
+        $this->LoadTask();
+
+        InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
+
+    }
 	public static function getInstance(){
 		return self::$instance;
 	}
 	public static function getRankAPI(): RankAPI{
 		return self::$RankAPI;
 	}
+	public static function getLogAPI(): LogAPI{
+		return self::$logAPI;
+	}
+	public static function getEnchantAPI(): EnchantAPI{
+		return self::$enchantAPI;
+	}
 
-    public function removeTask(int $id) {
-        $this->removeTask($id);
+    public function LoadTask() {
+        $this->getScheduler()->scheduleRepeatingTask(new LogTask($this), 20);
     }
 	private function register(string $dir, string $type)
 	{
@@ -73,10 +101,6 @@ class Main extends PluginBase{
 					$name = "\\" . str_replace([dirname(__FILE__), "/", ".php"], ["", "\\", ""], __NAMESPACE__ . $dir . "/" . $file);
 					$class = new $name($this);
 					switch ($type) {
-						case "Item":
-							(new ItemFactory)->register($class, true);
-							$this->getLogger()->info("§5adresse de l'item: ".$name);
-							break;
 						case "Command":
 							$this->getServer()->getCommandMap()->register($this->getName(), $class);
 							$this->getLogger()->info("§1adresse de la commande: ".$name);
@@ -85,19 +109,9 @@ class Main extends PluginBase{
 							$this->getServer()->getPluginManager()->registerEvents($class, $this);
 							$this->getLogger()->info("§3adresse de l'event: ".$name);
 							break;
-						case"Task":
-							$this->getScheduler()->scheduleRepeatingTask($class, $class->getEverySecond() * 20);
-							$this->getLogger()->info("§6adresse de la task: ".$name);
-							break;
 					}
 				}
 			}
 		}
 	}
-
-
-    protected function onLoad(): void
-    {
-        ItemsInit::Init();
-    }
 }

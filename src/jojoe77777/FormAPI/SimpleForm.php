@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace jojoe77777\FormAPI;
 
+use pocketmine\form\FormValidationException;
+
 class SimpleForm extends Form {
 
     const IMAGE_TYPE_PATH = 0;
@@ -25,7 +27,16 @@ class SimpleForm extends Form {
         $this->data["buttons"] = [];
     }
 
-    public function processData(&$data) : void {
+    public function processData(&$data) : void
+    {
+        if ($data === null) return;
+        if (!is_int($data)) {
+            throw new FormValidationException("Expected an integer response, got " . gettype($data));
+        }
+        $count = count($this->data["buttons"]);
+        if ($data >= $count || $data < 0) {
+            throw new FormValidationException("Button $data does not exist");
+        }
         $data = $this->labelMap[$data] ?? null;
     }
 
