@@ -29,7 +29,7 @@ class Shadow_Boots extends AetheriumArmor {
                     ->setInt("enchantable_value", 10)
                 )
                 ->setTag("minecraft:icon", CompoundTag::create()
-                    ->setString("texture", "shadow_boots")
+                    ->setString("texture", "stick")
                 )
                 ->setTag("minecraft:durability", CompoundTag::create()
                     ->setInt("max_durability", $this->getMaxDurability())

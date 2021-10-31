@@ -17,23 +17,26 @@ trait JobAPI{
     }
     public function setupPlayer(Player $player){
         $name = $player->getName();
-        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Farmer`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Jobs"));
-        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Miner`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Jobs"));
-        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Hunter`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Jobs"));
+        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Farmer`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Job"));
+        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Miner`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Job"));
+        Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("INSERT INTO `Hunter`(`pseudo`, `xp`, `lvl`) VALUES ('$name','0','0')", "Aetherium_Job"));
 
         copy(dirname(__FILE__)."/jobs/JobTemplate.yml", $this->plugin->getDataFolder()."job/"."players/".$player->getName().".yml");
     }
     public function joinServer(Player $player){
+
         $name = $player->getName();
-        $niveau = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Miner WHERE pseudo=" . $name , "Aetherium_Jobs"));
-        $xp = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Miner WHERE pseudo=" . $name , "Aetherium_Jobs"));
-        $niveauf = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Farmer WHERE pseudo=" . $name , "Aetherium_Jobs"));
-        $xpf = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Farmer WHERE pseudo=" . $name , "Aetherium_Jobs"));
-        $niveauh= Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Farmer WHERE pseudo=" . $name , "Aetherium_Jobs"));
-        $xph = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT niveau FROM Farmer WHERE pseudo=" . $name , "Aetherium_Jobs"));
+        $niveau = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT lvl FROM Miner WHERE pseudo='" . $name . "'", "Aetherium_Job"));
+        $xp = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT xp FROM Miner WHERE pseudo='" . $name ."'", "Aetherium_Job"));
+        $niveauf = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT lvl FROM Farmer WHERE pseudo= '" . $name ."'" , "Aetherium_Job"));
+        $xpf = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT xp FROM Farmer WHERE pseudo='" . $name ."'" , "Aetherium_Job"));
+        $niveauh= Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT lvl FROM Farmer WHERE pseudo='" . $name ."'", "Aetherium_Job"));
+        $xph = Main::getInstance()->getServer()->getAsyncPool()->submitTask(new MysqlTask("SELECT xp FROM Farmer WHERE pseudo='" . $name ."'" , "Aetherium_Job"));
+
         Variables::$MinerJob[$player->getName()] = array_merge(["xp" => $xp], ["niveau" => $niveau]);
         Variables::$FarmerJob[$player->getName()] = array_merge(["xp" => $xpf], ["niveau" => $niveauf]);
         Variables::$HunterJob[$player->getName()] = array_merge(["xp" => $xph], ["niveau" => $niveauh]);
+        var_dump(Variables::$HunterJob);
     }
     public function quitServer(Player $player){
         $xp = Variables::$MinerJob[$player->getName()]["xp"];

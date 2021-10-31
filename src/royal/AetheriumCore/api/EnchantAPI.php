@@ -9,6 +9,7 @@ use pocketmine\utils\SingletonTrait;
 use royal\AetheriumCore\api\enchantments\Foreuse;
 use royal\AetheriumCore\Main;
 use royal\AetheriumCore\Other\CustomEnchantments;
+use royal\AetheriumCore\utils\ModedId;
 
 final class EnchantAPI
 {
@@ -24,13 +25,14 @@ final class EnchantAPI
     public static function getEnchantmentHammer(Item $item, Block $block)
     {
         $enchantments = $item->getEnchantments();
-        foreach ($enchantments as $enchant) {
-            if ($enchant->getType()->getName() == CustomEnchantments::FOREUSE()){
-                self::getLevelEnchant($enchant->getLevel(), $block);
-            }else{
-                self::getLevelEnchant(4, $block);
+        if ($item->getId() === ModedId::HAMMER){
+            foreach ($enchantments as $enchant) {
+                if ($enchant->getType()->getName() == CustomEnchantments::FOREUSE()) {
+                    self::getLevelEnchant($enchant->getLevel(), $block);
+                } else {
+                    self::getLevelEnchant(4, $block);
+                }
             }
-            var_dump($enchant->getType()->getName());
         }
 
     }

@@ -14,7 +14,6 @@ use pocketmine\utils\RegistryTrait;
  * @generate-registry-docblock
  *
  * @method static Enchantment FOREUSE()
- *
  * @method static Enchantment TREFLE()
  */
 final class CustomEnchantments{

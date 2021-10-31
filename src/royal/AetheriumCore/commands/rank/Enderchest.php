@@ -7,6 +7,7 @@ use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use muqsit\invmenu\type\InvMenuType;
+use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\Listener;
@@ -37,7 +38,7 @@ class Enderchest extends Command{
         }
 	}
 	public function openEnderInventory(Player $player){
-		$menu = InvMenu::create(InvMenu::TYPE_CHEST);
+		$menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
 		$menu->setName("Ender Chest de ". $player->getName() );
 		$enderinv = $player->getEnderInventory()->getContents();
 		$player->getEnderInventory()->clearAll();

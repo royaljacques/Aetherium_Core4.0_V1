@@ -4,6 +4,7 @@ namespace royal\AetheriumCore\task;
 
 
 use pocketmine\scheduler\AsyncTask;
+use pocketmine\Server;
 
 class MysqlTask extends AsyncTask{
 
@@ -16,36 +17,30 @@ class MysqlTask extends AsyncTask{
         $this->text = $text;
         $this->database = $database;
     }
-
     public function getTaskLoader(){
         return null;
-    }
-    public function onRun(): void
-    {
-
     }
 
     /**
      * @throws \Exception
      */
-    public function onCompletion(): void
+
+    public function onRun(): void
     {
-        switch ($this->database) {
-            case "Aetherium_Job":
-                $db = new \MySQLi("127.0.0.1", "root", "", "Aetherium_Job");
-                break;
-            case "discord_api":
-                $db = new \MySQLi("127.0.0.1", "root", "", "Aetherium_Bot");
-                break;
-            case "Aetherium_stats":
-                $db = new \MySQLi("127.0.0.1", "root", "", "Aetherium_stats");
-                break;
-            case "Aetherium_Logs":
-                $db = new \MySQLi("127.0.0.1", "root", "", "Aetherium_Logs");
-                break;
-        }
+        $db = match ($this->database) {
+            "Aetherium_Job" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_Job"),
+            "discord_api" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_Bot"),
+            "Aetherium_stats" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_stats"),
+            "Aetherium_Logs" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_Logs"),
+        };
         $db->query($this->text);
         if ($db->error) throw new \Exception($db->error);
         $db->close();
     }
+    public function onCompletion(): void
+    {
+
+    }
+
+
 }

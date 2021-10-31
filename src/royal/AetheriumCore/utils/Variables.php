@@ -18,4 +18,5 @@ final class Variables{
 
     public static array $logAdminBlocPlacedEnabled = [];
 
+
 }

@@ -3,6 +3,14 @@
 declare(strict_types=1);
 
 namespace royal\AetheriumCore;
+use pocketmine\data\bedrock\EntityLegacyIds;
+use pocketmine\entity\Entity;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\entity\Human;
+use pocketmine\entity\Zombie;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\world\World;
 use royal\AetheriumCore\api\EnchantAPI;
 use royal\AetheriumCore\api\ItemAPI;
 use royal\AetheriumCore\api\LogAPI;
@@ -10,7 +18,6 @@ use royal\AetheriumCore\api\MysqlAPI;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\crafting\CraftingGrid;
-use pocketmine\item\ItemFactory;
 use pocketmine\permission\{
 	Permission,
 	PermissionManager
@@ -22,9 +29,12 @@ use royal\AetheriumCore\utils\{
 	Permissions,
 	Variables
 };
+use royal\AetheriumCore\entity\GolemEntity;
 use royal\AetheriumCore\items\ItemsInit;
 use royal\AetheriumCore\Other\CustomEnchantments;
+use royal\AetheriumCore\task\ClearLagTask;
 use royal\AetheriumCore\task\LogTask;
+use royal\AetheriumCore\task\MysqlTask;
 
 class Main extends PluginBase{
 	private static self $instance;
@@ -54,24 +64,29 @@ class Main extends PluginBase{
             PermissionManager::getInstance()->addPermission(new Permission($perms));
             $this->getLogger()->info("§2 La permission: ".$perms." a bien été load");
         }
+        $this->LoadEntity();
     }
 	protected function onEnable(): void
 	{
-
 		self::$instance = $this;
         self::$RankAPI = new RankAPI($this);
         self::$logAPI = new LogAPI();
         self::$enchantAPI = new EnchantAPI($this);
-
         MysqlAPI::Init();
-
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
 		}
-
+        /*
+        MysqlTask::createAsyncRequest(function(MysqlTask $var, \mysqli $db){
+            $query = $db->query("");
+            $var->setResult($query);
+            $db->close();
+        });
+        */
 		$this->register(dirname(__FILE__) . "/commands", "Command");
 		$this->register(dirname(__FILE__) . "/events", "Event");
         $this->LoadTask();
+
 
         InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
 
@@ -89,8 +104,14 @@ class Main extends PluginBase{
 		return self::$enchantAPI;
 	}
 
+    public function LoadEntity(){
+        EntityFactory::getInstance()->register(GolemEntity::class,function(World $world, CompoundTag $nbt) : GolemEntity{
+            return new GolemEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["golemEntity"]);
+    }
     public function LoadTask() {
         $this->getScheduler()->scheduleRepeatingTask(new LogTask($this), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this), 20);
     }
 	private function register(string $dir, string $type)
 	{

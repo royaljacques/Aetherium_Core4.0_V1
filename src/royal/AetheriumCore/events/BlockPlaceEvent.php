@@ -1,6 +1,7 @@
 <?php
 namespace royal\AetheriumCore\events;
 
+use pocketmine\block\Chest;
 use pocketmine\event\Listener;
 use pocketmine\event\block\BlockPlaceEvent as BPE;
 use royal\AetheriumCore\api\LogAPI;
@@ -14,6 +15,8 @@ class BlockPlaceEvent implements Listener{
     }
 
     public function onPlace(BPE $event){
-        LogAPI::InsertLogBlockPlaced($event->getBlock(), $event->getPlayer());
+        if ($event->getBlock() instanceof Chest) {
+            LogAPI::InsertLogBlockPlaced($event->getBlock(), $event->getPlayer());
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace royal\AetheriumCore\items;
 
-use pocketmine\inventory\ArmorInventory;
 use pocketmine\item\ArmorTypeInfo;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIdentifier;

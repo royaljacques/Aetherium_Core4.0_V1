@@ -16,6 +16,7 @@ final class Permissions{
         self::HOME_ELITE,
         self::HOME_VETERANT,
         self::HOME_PRO,
+        self::LOGS_BLOCK
 	];
 
 	///staff\\\
