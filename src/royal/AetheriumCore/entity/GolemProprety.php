@@ -4,18 +4,18 @@ namespace royal\AetheriumCore\entity;
 use pocketmine\entity\Human;
 use pocketmine\entity\Location;
 use pocketmine\entity\Skin;
+use pocketmine\item\Item;
 use pocketmine\nbt\tag\CompoundTag;
 use Ramsey\Uuid\Uuid;
 use royal\AetheriumCore\Main;
 
 class GolemProprety extends Human {
-    protected int $MaxLife = 30;
 
     public function __construct(Location $location, ?CompoundTag $nbt = null)
     {
         parent::__construct(
             $location,
-            new Skin("FarmerGolem", $this->PNGtoBYTES(Main::getInstance()->getDataFolder() . "FarmerGolem.png"), "", "minecraft:iron_golem","geometry.irongolem"),
+            new Skin("FarmerGolem", $this->PNGtoBYTES(Main::getInstance()->getDataFolder() . "FarmerGolem.png"), "", "geometry.irongolem",file_get_contents(Main::getInstance()->getDataFolder()."mobs.json")),
             $nbt);
         $this->uuid = Uuid::uuid3(Uuid::NIL, ((string) $this->getId()) . $this->skin->getSkinData() . $this->getNameTag());
     }
@@ -32,15 +32,9 @@ class GolemProprety extends Human {
         @imagedestroy($img);
         return $bytes;
     }
-
-    public function getMaxLife(): int
+    public function setDrops(Location $location, Item $item)
     {
-        return $this->MaxLife;
-    }
-    public function addMaxLife(): int
-    {
-        $this->MaxLife = $this->MaxLife + 5;
-        return true;
+        $this->getWorld()->dropItem($location, $item);
     }
 
 }

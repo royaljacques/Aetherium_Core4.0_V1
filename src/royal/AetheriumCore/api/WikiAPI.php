@@ -14,7 +14,6 @@ class WikiAPI{
             switch($data){
                 case 0:
                     self::EnchantementsWiki($player);
-
             }
         });
         $form->setTitle("Wiki");

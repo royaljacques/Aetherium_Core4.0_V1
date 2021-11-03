@@ -26,4 +26,5 @@ class Craft extends Command{
 			self::WORKBENCH()->send($sender);
 		}
 	}
+
 }

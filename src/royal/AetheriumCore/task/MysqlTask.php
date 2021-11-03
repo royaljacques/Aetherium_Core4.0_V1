@@ -27,6 +27,7 @@ class MysqlTask extends AsyncTask{
 
     public function onRun(): void
     {
+        echo "salut\n";
         $db = match ($this->database) {
             "Aetherium_Job" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_Job"),
             "discord_api" => new \MySQLi("127.0.0.1", "root", "", "Aetherium_Bot"),

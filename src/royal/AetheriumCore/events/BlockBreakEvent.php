@@ -1,18 +1,9 @@
 <?php
 namespace royal\AetheriumCore\events;
 
-use pocketmine\block\Block;
-use pocketmine\block\BlockLegacyIds;
-use pocketmine\block\VanillaBlocks;
-use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\event\Listener;
-use pocketmine\item\enchantment\Enchantment;
-use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
-use pocketmine\item\VanillaItems;
-use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\types\command\CommandOutputMessage;
 use royal\AetheriumCore\api\EnchantAPI;
 use royal\AetheriumCore\api\JobAPI;
 use royal\AetheriumCore\Main;

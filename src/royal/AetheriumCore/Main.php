@@ -34,7 +34,6 @@ use royal\AetheriumCore\items\ItemsInit;
 use royal\AetheriumCore\Other\CustomEnchantments;
 use royal\AetheriumCore\task\ClearLagTask;
 use royal\AetheriumCore\task\LogTask;
-use royal\AetheriumCore\task\MysqlTask;
 
 class Main extends PluginBase{
 	private static self $instance;
@@ -72,7 +71,7 @@ class Main extends PluginBase{
         self::$RankAPI = new RankAPI($this);
         self::$logAPI = new LogAPI();
         self::$enchantAPI = new EnchantAPI($this);
-        MysqlAPI::Init();
+        //MysqlAPI::Init();
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);
 		}
@@ -86,7 +85,6 @@ class Main extends PluginBase{
 		$this->register(dirname(__FILE__) . "/commands", "Command");
 		$this->register(dirname(__FILE__) . "/events", "Event");
         $this->LoadTask();
-
 
         InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
 

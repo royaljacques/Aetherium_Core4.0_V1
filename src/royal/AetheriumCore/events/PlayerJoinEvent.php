@@ -20,10 +20,10 @@ use JobAPI;
 		$player = $event->getPlayer();
 		if (!$player->hasPlayedBefore()){
 			Main::getRankAPI()->firstJoin($player);
-            $this->setupPlayer($player);
+            //$this->setupPlayer($player);
             MysqlAPI::PlayerNotPlayedBefore($player);
 		}
-		$this->joinServer($player);
+		//$this->joinServer($player);
 		Main::getRankAPI()->playerJoinServer($player);
         $player->getNetworkSession()->syncGameMode($player->getGamemode());
         $player->getNetworkSession()->sendDataPacket(ItemAPI::$packet);
