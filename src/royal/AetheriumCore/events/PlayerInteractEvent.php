@@ -21,7 +21,9 @@ class PlayerInteractEvent implements Listener
     public function OnInteract(PIE $event)
     {
 
+        /*
             $nbt = new GolemEntity($event->getPlayer()->getLocation());
             $nbt->spawnToAll();
+        */
     }
 }

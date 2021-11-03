@@ -15,6 +15,7 @@ use royal\AetheriumCore\api\EnchantAPI;
 use royal\AetheriumCore\api\ItemAPI;
 use royal\AetheriumCore\api\LogAPI;
 use royal\AetheriumCore\api\MysqlAPI;
+use royal\AetheriumCore\blocks\InitBlocks;
 use royal\AetheriumCore\blocks\inventory\CraftingGridInvMenuType;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\crafting\CraftingGrid;
@@ -31,6 +32,7 @@ use royal\AetheriumCore\utils\{
 };
 use royal\AetheriumCore\entity\GolemEntity;
 use royal\AetheriumCore\items\ItemsInit;
+use royal\AetheriumCore\Other\customClass\ModedItems;
 use royal\AetheriumCore\Other\CustomEnchantments;
 use royal\AetheriumCore\task\ClearLagTask;
 use royal\AetheriumCore\task\LogTask;
@@ -71,6 +73,8 @@ class Main extends PluginBase{
         self::$RankAPI = new RankAPI($this);
         self::$logAPI = new LogAPI();
         self::$enchantAPI = new EnchantAPI($this);
+        ModedItems::setup();
+        InitBlocks::Init();
         //MysqlAPI::Init();
 		if(!InvMenuHandler::isRegistered()){
 			InvMenuHandler::register($this);

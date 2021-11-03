@@ -18,7 +18,7 @@ use royal\AetheriumCore\items\CustomClass\AetheriumArmor;
 use royal\AetheriumCore\items\CustomClass\AetheriumItem;
 use royal\AetheriumCore\Main;
 use Webmozart\PathUtil\Path;
-use const pocketmine\RESOURCE_PATH;
+use const pocketmine\BEDROCK_DATA_PATH;
 
 class ItemAPI {
 
@@ -50,11 +50,11 @@ class ItemAPI {
             $array['item_id_map']['aetherium:' . $item->getName()] = $item->getId();
             $array['required_item_list']['aetherium:' . $item->getName()] = ["runtime_id" => $item->getId() + ($item->getId() > 0 ? 5000 : -5000), "component_based" => true];
         }
-        $data = file_get_contents(RESOURCE_PATH . '/vanilla/r16_to_current_item_map.json');
+        $data = file_get_contents(BEDROCK_DATA_PATH . 'r16_to_current_item_map.json');
         $json = json_decode($data, true);
         $add = $array['r16_to_current_item_map'];
         $json["simple"] = array_merge($json["simple"], $add["simple"]);
-        $legacyStringToIntMapRaw = file_get_contents(RESOURCE_PATH . '/vanilla/item_id_map.json');
+        $legacyStringToIntMapRaw = file_get_contents(BEDROCK_DATA_PATH . 'item_id_map.json');
         $add = $array["item_id_map"];
         $legacyStringToIntMap = json_decode($legacyStringToIntMapRaw, true);
         $legacyStringToIntMap = array_merge($add, $legacyStringToIntMap);
@@ -73,7 +73,7 @@ class ItemAPI {
         }
 
 
-        $old = json_decode(file_get_contents(RESOURCE_PATH . '/vanilla/required_item_list.json'), true);
+        $old = json_decode(file_get_contents(BEDROCK_DATA_PATH . 'required_item_list.json'), true);
         $add = $array["required_item_list"];
         $table = array_merge($old, $add);
         $params = [];
@@ -91,7 +91,7 @@ class ItemAPI {
             }
         }
         CreativeInventory::getInstance()->clear();
-        $creativeItems = json_decode(file_get_contents(Path::join(RESOURCE_PATH, "vanilla", "creativeitems.json")), true);
+        $creativeItems = json_decode(file_get_contents(Path::join(BEDROCK_DATA_PATH,  "creativeitems.json")), true);
         foreach (self::$queue as $item) {
 
             if (!ItemFactory::getInstance()->isRegistered($item->getId())) {

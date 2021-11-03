@@ -6,7 +6,11 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\CommandException;
 use pocketmine\lang\Translatable;
+use pocketmine\network\mcpe\protocol\ItemComponentPacket;
+use pocketmine\network\mcpe\protocol\serializer\ItemTypeDictionary;
+use pocketmine\network\mcpe\protocol\types\ItemComponentPacketEntry;
 use pocketmine\player\Player;
+use raklib\protocol\PacketSerializer;
 use royal\AetheriumCore\Main;
 
 class ItemId extends Command{

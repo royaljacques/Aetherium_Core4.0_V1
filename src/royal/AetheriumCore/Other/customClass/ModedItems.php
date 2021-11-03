@@ -4,12 +4,17 @@ namespace royal\AetheriumCore\Other\customClass;
 
 use pocketmine\item\Item;
 use pocketmine\utils\CloningRegistryTrait;
+use royal\AetheriumCore\utils\ModedId;
 
+/**
+ * @method static Item ZINC_INGOTS()
+ * @method static Item OCTANITE_INGOTS)
+ */
 final class ModedItems{
     use CloningRegistryTrait;
 
     private function __construct(){
-        //NOOP
+
     }
 
     protected static function register(string $name, Item $item) : void{
@@ -32,8 +37,10 @@ final class ModedItems{
         return $result;
     }
 
-    protected static function setup(): void
+    public static function setup(): void
     {
         $factory = ModedItemFactory::getInstance();
+        self::register("zinc_ingots", $factory->get(ModedId::ZINC_INGOTS, 0));
+        self::register("octanite_ingots", $factory->get(ModedId::OCTANITE_INGOTS, 0));
     }
 }

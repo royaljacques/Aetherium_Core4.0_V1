@@ -7,6 +7,7 @@ use pocketmine\item\ItemIdentifier;
 use pocketmine\item\Tool;
 use pocketmine\item\ToolTier;
 use pocketmine\utils\Utils;
+use royal\AetheriumCore\Other\customClass\ModedToolTier;
 
 class TieredTool extends Tool {
     /** @var ToolTier */
@@ -16,7 +17,7 @@ class TieredTool extends Tool {
         $this->name = $name;
         return $this;
     }
-    public function __construct(ItemIdentifier $identifier, string $name, ToolTier $tier){
+    public function __construct(ItemIdentifier $identifier, string $name, ModedToolTier $tier){
         parent::__construct($identifier, $name);
         $this->tier = $tier;
     }
