@@ -17,6 +17,4 @@ final class Variables{
     public static array $logPlayerBlockPlaced = [];
 
     public static array $logAdminBlocPlacedEnabled = [];
-
-
 }

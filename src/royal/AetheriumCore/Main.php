@@ -93,7 +93,8 @@ class Main extends PluginBase{
         InvMenuHandler::getTypeRegistry()->register(Variables::INV_MENU_TYPE_WORKBENCH, new CraftingGridInvMenuType(CraftingGrid::SIZE_BIG));
 
     }
-	public static function getInstance(){
+	public static function getInstance(): Main
+    {
 		return self::$instance;
 	}
 	public static function getRankAPI(): RankAPI{
